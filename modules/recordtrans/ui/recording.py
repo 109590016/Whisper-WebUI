@@ -73,23 +73,36 @@ def build_recording_panel(controller: RecordingController) -> RecordingComponent
     """Build the recording panel for assembly by the application entry point."""
     import gradio as gr
 
-    gr.Markdown(
-        "使用瀏覽器的錄音按鈕開始與停止。若拒絕權限或沒有裝置，"
-        "瀏覽器會顯示錯誤；請允許 localhost 使用麥克風後再試。"
-    )
-    capture = gr.Audio(
-        label="麥克風錄音（停止後可回聽）",
-        sources=["microphone"],
-        type="filepath",
-    )
-    with gr.Row():
-        save_button = gr.Button("永久保存錄音", interactive=False)
-        submit_button = gr.Button("提交轉錄", variant="primary", interactive=False)
-    playback = gr.Audio(label="已保存錄音回聽", interactive=False)
-    status = gr.Textbox(label="錄音狀態", value="尚未錄音。", interactive=False)
-    source_id = gr.Textbox(label="來源 ID", interactive=False)
-    job_id = gr.Textbox(label="任務 ID", interactive=False)
-    state = gr.State(None)
+    with gr.Column(elem_classes=["rt-panel"]):
+        gr.HTML(
+            """
+            <div class="rt-section-heading">
+              <p class="rt-section-kicker">RECORD</p>
+              <h2 class="rt-section-title">錄下訪談或語音筆記</h2>
+              <p class="rt-section-copy">允許瀏覽器使用麥克風，停止後先回聽並永久保存，再提交本機轉錄。</p>
+            </div>
+            """
+        )
+        capture = gr.Audio(
+            label="麥克風錄音（停止後可回聽）",
+            sources=["microphone"],
+            type="filepath",
+        )
+        with gr.Row(elem_classes=["rt-action-row"]):
+            save_button = gr.Button("永久保存錄音", interactive=False)
+            submit_button = gr.Button(
+                "提交轉錄", variant="primary", interactive=False
+            )
+        playback = gr.Audio(label="已保存錄音回聽", interactive=False)
+        status = gr.Textbox(
+            label="錄音狀態",
+            value="尚未錄音。",
+            interactive=False,
+            elem_classes=["rt-status"],
+        )
+        source_id = gr.Textbox(label="來源 ID", interactive=False)
+        job_id = gr.Textbox(label="任務 ID", interactive=False)
+        state = gr.State(None)
 
     capture.change(
         fn=lambda path: _capture_changed(controller, path),
