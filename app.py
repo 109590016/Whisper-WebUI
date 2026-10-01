@@ -34,6 +34,14 @@ def _job_view(service: RecordTransService, job_id: str | None):
     return message, str(view["text"]), view["downloads"]
 
 
+def _gradio_allowed_paths(service: RecordTransService) -> list[str]:
+    """Expose only user-facing durable media and result directories to Gradio."""
+    return [
+        str(service.storage.paths.recordings.resolve()),
+        str(service.storage.paths.outputs.resolve()),
+    ]
+
+
 def build_app(service: RecordTransService) -> gr.Blocks:
     def submit_file(path: str | None) -> tuple[str, str]:
         if not path:
@@ -188,7 +196,10 @@ def main() -> None:
         compute_type=os.environ.get("RECORDTRANS_COMPUTE_TYPE", "float16"),
     )
     build_app(service).queue(default_concurrency_limit=4).launch(
-        server_name=args.server_name, server_port=args.server_port, show_error=True
+        server_name=args.server_name,
+        server_port=args.server_port,
+        show_error=True,
+        allowed_paths=_gradio_allowed_paths(service),
     )
 
 
