@@ -11,3 +11,23 @@ outputs/
 models/
 modules/yt_tmp.wav
 configs/default_parameters.yaml
+
+# RecordTrans local data and secrets
+data/
+recordings/
+uploads/
+temp/
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+*.srt
+*.vtt
+*.m4a
+*.mov
+*.webm
+.env
+.env.*
+!.env.example

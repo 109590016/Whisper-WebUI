@@ -1,24 +1,35 @@
 services:
   whisper-webui:
-    container_name: whisper-webui
+    container_name: recordtrans
     build: .
-    image: jhj0517/whisper-webui:latest
+    image: recordtrans:local
 
     volumes:
-      # You can mount the container's volume paths to directory paths on your local machine.
-      # Models will be stored in the `./models' directory on your machine.
-      # Similarly, all output files will be stored in the `./outputs` directory.
-      - ./models:/Whisper-WebUI/models
-      - ./outputs:/Whisper-WebUI/outputs
+      - ${RECORDTRANS_DATA_DIR:-./data}:/data
+      - recordtrans-models:/Whisper-WebUI/models
       - ./configs:/Whisper-WebUI/configs
 
     ports:
-      - "7860:7860"
+      - "127.0.0.1:${RECORDTRANS_PORT:-7860}:7860"
+
+    environment:
+      DATA_DIR: /data
+      TZ: Asia/Taipei
 
     stdin_open: true
     tty: true
 
-    entrypoint: ["python", "app.py", "--server_port", "7860", "--server_name", "0.0.0.0",]
+    entrypoint: ["python", "app.py", "--server_port", "7860", "--server_name", "0.0.0.0", "--output_dir", "/data/outputs"]
+
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://127.0.0.1:7860/"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 120s
+
+    shm_size: "2gb"
+    restart: unless-stopped
 
     # If you're not using nvidia GPU, Update device to match yours.
     # See more info at : https://docs.docker.com/compose/compose-file/deploy/#driver
@@ -28,5 +39,9 @@ services:
         reservations:
           devices:
             - driver: nvidia
-              count: all
+              count: 1
               capabilities: [ gpu ]
+
+volumes:
+  recordtrans-models:
+    name: recordtrans-models
