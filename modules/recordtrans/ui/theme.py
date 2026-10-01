@@ -54,6 +54,12 @@ body {
   background: var(--rt-page) !important;
 }
 
+body > gradio-app > .gradio-container {
+  width: min(1180px, 100%) !important;
+  flex: 0 1 1180px;
+  margin-inline: auto !important;
+}
+
 .gradio-container {
   max-width: 1180px !important;
   padding: 34px 28px 48px !important;
@@ -62,8 +68,9 @@ body {
 
 #recordtrans-shell {
   gap: 22px;
-  width: 100% !important;
-  max-width: none !important;
+  width: min(1120px, 100%) !important;
+  max-width: 1120px !important;
+  margin-inline: auto;
   align-self: stretch;
 }
 
