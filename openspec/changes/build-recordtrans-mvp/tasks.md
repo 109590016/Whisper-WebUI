@@ -19,7 +19,7 @@
 - [x] 3.2 實作 DATA_DIR 子目錄、可寫檢查、UUID 與原子來源保存，並測試中文空白路徑、同名來源與中斷寫入
 - [x] 3.3 實作 SQLite source／job／attempt／result schema 與狀態轉移，並測試重啟讀取、WAL 及非法轉移
 - [x] 3.4 完成三份 Feature Spec 的實際檔案所有權與介面，並驗證與共用契約一致
-- [ ] 3.5 提交並推送 foundation 基準，確認本機 HEAD 等於遠端分支後才建立三個同 SHA 工作樹
+- [x] 3.5 提交並推送 foundation 基準，確認本機 HEAD 等於遠端分支後才建立三個同 SHA 工作樹
 
 ## 4. RT-04／RT-06 上傳轉錄與輸出工作樹
 
