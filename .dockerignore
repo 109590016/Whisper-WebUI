@@ -4,6 +4,8 @@ modules/yt_tmp.wav
 **/__pycache__/
 **/outputs/
 **/models/
+data/
+.env
 
 **/.idea
 **/.git
