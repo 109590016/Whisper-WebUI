@@ -2,7 +2,7 @@
 
 ## 1. RT-01 可追溯基底與正式規格
 
-- [ ] 1.1 固定 upstream commit、補齊 origin／upstream 與 Apache-2.0 修改聲明，並以 `git remote -v`、`git rev-parse HEAD` 驗證來源可追溯
+- [x] 1.1 固定 upstream commit、補齊 origin／upstream 與 Apache-2.0 修改聲明，並以 `git remote -v`、`git rev-parse HEAD` 驗證來源可追溯
 - [x] 1.2 補強 `.gitignore` 排除資料目錄、模型、SQLite、逐字稿、環境變數與私人媒體，並以 staged-file 檢查驗證不會誤提交
 - [x] 1.3 驗證 OpenSpec proposal、五個 capability specs、design 與 tasks，並以 `openspec validate build-recordtrans-mvp --strict` 通過
 
