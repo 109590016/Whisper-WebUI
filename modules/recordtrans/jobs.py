@@ -6,7 +6,7 @@ import threading
 from collections.abc import Callable
 from contextlib import contextmanager
 from dataclasses import dataclass
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterator
 
@@ -21,7 +21,7 @@ def _parse_timestamp(value: str | None) -> datetime | None:
     if value is None:
         return None
     parsed = datetime.fromisoformat(value)
-    return parsed if parsed.tzinfo is not None else parsed.replace(tzinfo=UTC)
+    return parsed if parsed.tzinfo is not None else parsed.replace(tzinfo=timezone.utc)
 
 
 @dataclass(frozen=True, slots=True)
@@ -39,7 +39,7 @@ class JobSnapshot:
 
     def elapsed_seconds(self, now: datetime | None = None) -> float:
         start = self.started_at or self.created_at
-        end = self.finished_at or now or datetime.now(UTC)
+        end = self.finished_at or now or datetime.now(timezone.utc)
         return max(0.0, (end - start).total_seconds())
 
     @property

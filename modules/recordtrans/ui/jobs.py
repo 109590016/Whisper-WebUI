@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 from ..contracts import JobStatus
@@ -26,7 +26,7 @@ def present_job(
         "status": snapshot.status.value,
         "status_label": STATUS_LABELS[snapshot.status],
         "attempt": snapshot.attempt_sequence,
-        "elapsed_seconds": round(snapshot.elapsed_seconds(now or datetime.now(UTC)), 3),
+        "elapsed_seconds": round(snapshot.elapsed_seconds(now or datetime.now(timezone.utc)), 3),
         "error": snapshot.error,
         "downloads": downloadable_outputs(snapshot),
     }

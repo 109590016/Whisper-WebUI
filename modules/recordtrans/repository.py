@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import sqlite3
 from contextlib import contextmanager
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterator, Sequence
 from uuid import uuid4
@@ -13,7 +13,7 @@ from .storage import StoredSource
 
 
 def _now() -> str:
-    return datetime.now(UTC).isoformat()
+    return datetime.now(timezone.utc).isoformat()
 
 
 class RecordTransRepository:
@@ -113,6 +113,29 @@ class RecordTransRepository:
     def get_job(self, job_id: str) -> dict[str, object] | None:
         with self._connection() as connection:
             row = connection.execute("SELECT * FROM jobs WHERE id = ?", (job_id,)).fetchone()
+        return dict(row) if row else None
+
+    def get_source(self, source_id: str) -> dict[str, object] | None:
+        with self._connection() as connection:
+            row = connection.execute(
+                "SELECT * FROM sources WHERE id = ?", (source_id,)
+            ).fetchone()
+        return dict(row) if row else None
+
+    def list_jobs(self, limit: int = 20) -> list[dict[str, object]]:
+        if limit < 1:
+            raise ValueError("limit must be positive")
+        with self._connection() as connection:
+            rows = connection.execute(
+                "SELECT * FROM jobs ORDER BY created_at DESC LIMIT ?", (limit,)
+            ).fetchall()
+        return [dict(row) for row in rows]
+
+    def get_result(self, job_id: str) -> dict[str, object] | None:
+        with self._connection() as connection:
+            row = connection.execute(
+                "SELECT * FROM results WHERE job_id = ?", (job_id,)
+            ).fetchone()
         return dict(row) if row else None
 
     def transition_job(
@@ -216,4 +239,3 @@ class RecordTransRepository:
                     _now(),
                 ),
             )
-

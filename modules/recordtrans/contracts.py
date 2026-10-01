@@ -1,15 +1,15 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from enum import StrEnum
+from enum import Enum
 
 
-class SourceKind(StrEnum):
+class SourceKind(str, Enum):
     UPLOAD = "upload"
     RECORDING = "recording"
 
 
-class JobStatus(StrEnum):
+class JobStatus(str, Enum):
     QUEUED = "queued"
     PROCESSING = "processing"
     COMPLETED = "completed"
@@ -41,4 +41,3 @@ class Segment:
             raise ValueError("segment end must not precede start")
         if not self.text.strip():
             raise ValueError("segment text must not be blank")
-

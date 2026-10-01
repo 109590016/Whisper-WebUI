@@ -15,6 +15,10 @@ services:
     environment:
       DATA_DIR: /data
       TZ: Asia/Taipei
+      RECORDTRANS_MODEL_DIR: /Whisper-WebUI/models
+      RECORDTRANS_MODEL: ${RECORDTRANS_MODEL:-small}
+      RECORDTRANS_DEVICE: ${RECORDTRANS_DEVICE:-cuda}
+      RECORDTRANS_COMPUTE_TYPE: ${RECORDTRANS_COMPUTE_TYPE:-float16}
 
     stdin_open: true
     tty: true
