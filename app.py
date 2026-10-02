@@ -95,7 +95,7 @@ def build_app(service: RecordTransService) -> gr.Blocks:
                                 <div class="rt-section-heading">
                                   <p class="rt-section-kicker">UPLOAD</p>
                                   <h2 class="rt-section-title">從檔案建立逐字稿</h2>
-                                  <p class="rt-section-copy">支援 MP3、WAV、M4A、MP4、MOV 與 WebM；單檔上限 1 GiB、60 分鐘。</p>
+                                  <p class="rt-section-copy">支援 MP3、WAV、M4A、MP4、MOV 與 WebM；單檔上限 1 GiB、2 小時。</p>
                                 </div>
                                 """
                             )

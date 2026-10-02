@@ -3,7 +3,7 @@
 RecordTrans 是以 [jhj0517/Whisper-WebUI](https://github.com/jhj0517/Whisper-WebUI) 為基礎的本機錄音與影音逐字稿工具。目前 MVP 聚焦：
 
 - 以瀏覽器錄音，先回聽並永久保存，再提交轉錄。
-- 上傳 MP3、WAV、M4A、MP4、MOV、WebM，驗證音軌、60 分鐘與 1 GiB 上限。
+- 上傳 MP3、WAV、M4A、MP4、MOV、WebM，驗證音軌、2 小時與 1 GiB 上限。
 - 使用單一 GPU worker 與 `faster-whisper` 產生繁體中文逐字稿。
 - 保存任務狀態，輸出 UTF-8 TXT、SRT、VTT；失敗或中斷後可重試。
 - 僅發布在 `127.0.0.1:7860`，媒體、SQLite 與結果保存在使用者設定的本機資料夾。
