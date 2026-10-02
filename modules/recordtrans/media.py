@@ -13,7 +13,7 @@ from .storage import LocalMediaStorage, StoredSource
 
 GIB = 1024 * 1024 * 1024
 MAX_MEDIA_BYTES = GIB
-MAX_MEDIA_SECONDS = 60 * 60
+MAX_MEDIA_SECONDS = 2 * 60 * 60
 SUPPORTED_EXTENSIONS = frozenset({".mp3", ".wav", ".m4a", ".mp4", ".mov", ".webm"})
 
 _EXPECTED_FORMATS: dict[str, frozenset[str]] = {
@@ -126,7 +126,7 @@ class MediaProbe:
         if duration <= 0:
             raise MediaValidationError("媒體長度無效")
         if duration > MAX_MEDIA_SECONDS:
-            raise MediaValidationError("媒體長度超過 60 分鐘上限")
+            raise MediaValidationError("媒體長度超過 2 小時上限")
 
         codec = str(audio_streams[0].get("codec_name") or "unknown")
         return MediaInfo(

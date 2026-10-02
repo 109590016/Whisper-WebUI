@@ -123,14 +123,25 @@ class MediaProbeTests(unittest.TestCase):
         with self.assertRaisesRegex(MediaValidationError, "沒有可用的音軌"):
             probe.inspect(source)
 
-    def test_rejects_duration_over_sixty_minutes(self):
+    def test_accepts_duration_up_to_two_hours(self):
+        source = self.media("long.webm")
+        for duration in ("3600.001", "7199.999", "7200.000"):
+            with self.subTest(duration=duration):
+                probe = MediaProbe(
+                    runner=lambda *args, **kwargs: probe_result(
+                        format_name="matroska,webm", duration=duration
+                    )
+                )
+                self.assertEqual(probe.inspect(source).duration_seconds, float(duration))
+
+    def test_rejects_duration_over_two_hours(self):
         source = self.media("long.webm")
         probe = MediaProbe(
             runner=lambda *args, **kwargs: probe_result(
-                format_name="matroska,webm", duration="3600.001"
+                format_name="matroska,webm", duration="7200.001"
             )
         )
-        with self.assertRaisesRegex(MediaValidationError, "超過 60 分鐘"):
+        with self.assertRaisesRegex(MediaValidationError, "超過 2 小時"):
             probe.inspect(source)
 
     def test_rejects_non_finite_duration(self):
